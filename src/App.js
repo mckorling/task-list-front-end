@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get('https://task-list-api-c17.herokuapp.com/tasks')
+      .get('/tasks')
       .then((response) => {
         //console.log(response.data.isComplete);
         setTasks(response.data);
@@ -53,9 +53,7 @@ const App = () => {
     if (targetTask.is_complete) {
       console.log('inside if statement');
       axios
-        .patch(
-          `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/mark_incomplete`
-        )
+        .patch(`/tasks/${targetTask.id}/mark_incomplete`)
 
         .then(() => {
           console.log('toggle working');
@@ -74,9 +72,7 @@ const App = () => {
     } else {
       console.log('inside if statement');
       axios
-        .patch(
-          `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/mark_complete`
-        )
+        .patch(`/tasks/${targetTask.id}/mark_complete`)
 
         .then(() => {
           console.log('toggle working');
@@ -97,7 +93,7 @@ const App = () => {
 
   const deleteTask = (id) => {
     axios
-      .delete(`https://task-list-api-c17.herokuapp.com/tass/${id}`)
+      .delete(`/tasks/${id}`)
       .then(() => {
         const newTasks = tasks.filter((task) => task.id !== id);
         setTasks(newTasks);
