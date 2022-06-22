@@ -96,8 +96,15 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
+    axios
+      .delete(`https://task-list-api-c17.herokuapp.com/tass/${id}`)
+      .then(() => {
+        const newTasks = tasks.filter((task) => task.id !== id);
+        setTasks(newTasks);
+      })
+      .catch((error) => {
+        setErrorMessage(<section>Can&apos;t delete task</section>);
+      });
   };
 
   return (
