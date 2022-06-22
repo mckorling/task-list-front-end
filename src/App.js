@@ -59,7 +59,27 @@ const App = () => {
 
         .then(() => {
           console.log('toggle working');
-          targetTask.is_complete = false;
+          targetTask.is_complete = !targetTask.is_complete;
+          setTasks(newTasks);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            <section>
+              Can&apos;t mark task incomplete: {error.response.statusText}
+            </section>
+          );
+          console.log(error.response);
+        });
+    } else {
+      console.log('inside if statement');
+      axios
+        .patch(
+          `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/mark_complete`
+        )
+
+        .then(() => {
+          console.log('toggle working');
+          targetTask.is_complete = !targetTask.is_complete;
           setTasks(newTasks);
         })
         .catch((error) => {
