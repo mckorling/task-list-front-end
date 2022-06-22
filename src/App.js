@@ -1,23 +1,42 @@
 import React from 'react';
 import TaskList from './components/TaskList.js';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const TASKS = [
-  {
-    id: 1,
-    title: 'Mow the lawn',
-    isComplete: false,
-  },
-  {
-    id: 2,
-    title: 'Cook Pasta',
-    isComplete: true,
-  },
-];
+// const TASKS = [
+//   {
+//     id: 1,
+//     title: 'Mow the lawn',
+//     isComplete: false,
+//   },
+//   {
+//     id: 2,
+//     title: 'Cook Pasta',
+//     isComplete: true,
+//   },
+// ];
 
 const App = () => {
-  const [tasks, setTasks] = useState(TASKS);
+  const [tasks, setTasks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    axios
+      .get('https://task-list-api-c17.herokuapp.com/tasks')
+      .then((response) => {
+        setTasks(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(
+          <section>
+            The databade responded with this message:{' '}
+            {error.response.statusText}
+          </section>
+        );
+        console.log(error.response);
+      });
+  }, []);
 
   const updateTaskData = (id) => {
     const newTasks = [...tasks];
@@ -49,6 +68,7 @@ const App = () => {
             />
           }
         </div>
+        <div className="error">{errorMessage}</div>
       </main>
     </div>
   );
