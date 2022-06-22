@@ -59,6 +59,7 @@ const App = () => {
 
         .then(() => {
           console.log('toggle working');
+          // eslint-disable-next-line camelcase
           targetTask.is_complete = !targetTask.is_complete;
           setTasks(newTasks);
         })
@@ -79,6 +80,7 @@ const App = () => {
 
         .then(() => {
           console.log('toggle working');
+          // eslint-disable-next-line camelcase
           targetTask.is_complete = !targetTask.is_complete;
           setTasks(newTasks);
         })
@@ -91,24 +93,6 @@ const App = () => {
           console.log(error.response);
         });
     }
-    // axios
-    // .put(`http://127.0.0.1:5000/cats/${targetCat.id}`, {
-    //   name: targetCat.name,
-    //   age: targetCat.age + 1,
-    //   color: targetCat.color,
-    //   saying: targetCat.saying,
-    // })
-    // .then((response) => {
-    //   // everything worked the way we wanted
-    //   // now can update current data
-    //   targetCat.age++;
-    //   // call setCats to update array
-    //   setCats(newCats);
-    // })
-    // .catch((error) => {
-    //   console.log("couldn't age cat");
-    // });
-    setTasks(newTasks);
   };
 
   const deleteTask = (id) => {
