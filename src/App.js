@@ -25,6 +25,7 @@ const App = () => {
     axios
       .get('https://task-list-api-c17.herokuapp.com/tasks')
       .then((response) => {
+        //console.log(response.data.isComplete);
         setTasks(response.data);
       })
       .catch((error) => {
@@ -40,11 +41,53 @@ const App = () => {
 
   const updateTaskData = (id) => {
     const newTasks = [...tasks];
+    let targetTask;
+
     for (let task of newTasks) {
       if (task.id === id) {
-        task.isComplete = !task.isComplete;
+        // task.isComplete = !task.isComplete;
+        targetTask = task;
+        console.log(targetTask.is_complete);
       }
     }
+    if (targetTask.is_complete) {
+      console.log('inside if statement');
+      axios
+        .patch(
+          `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/mark_incomplete`
+        )
+
+        .then(() => {
+          console.log('toggle working');
+          targetTask.is_complete = false;
+          setTasks(newTasks);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            <section>
+              Can&apos;t mark task incomplete: {error.response.statusText}
+            </section>
+          );
+          console.log(error.response);
+        });
+    }
+    // axios
+    // .put(`http://127.0.0.1:5000/cats/${targetCat.id}`, {
+    //   name: targetCat.name,
+    //   age: targetCat.age + 1,
+    //   color: targetCat.color,
+    //   saying: targetCat.saying,
+    // })
+    // .then((response) => {
+    //   // everything worked the way we wanted
+    //   // now can update current data
+    //   targetCat.age++;
+    //   // call setCats to update array
+    //   setCats(newCats);
+    // })
+    // .catch((error) => {
+    //   console.log("couldn't age cat");
+    // });
     setTasks(newTasks);
   };
 
