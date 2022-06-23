@@ -1,9 +1,11 @@
 import React from 'react';
 import TaskList from './components/TaskList.js';
+import TaskForm from './components/TaskForm.js';
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TaskListService } from './services/TaskListService.js';
+import Task from './components/Task.js';
 
 // const TASKS = [
 //   {
@@ -23,6 +25,10 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
+    getTasksFromAPI();
+  }, []);
+
+  const getTasksFromAPI = () => {
     axios
       .get('/tasks')
       .then((response) => {
@@ -37,7 +43,19 @@ const App = () => {
         );
         console.log(error.response);
       });
-  }, []);
+  };
+
+  const makeNewTask = (data) => {
+    console.log(data);
+    axios
+      .post('/tasks', data)
+      .then((response) => {
+        getTasksFromAPI();
+      })
+      .catch((error) => {
+        console.log("couldn't make a new task");
+      });
+  };
 
   const updateTaskData = (id) => {
     const newTasks = [...tasks];
@@ -102,6 +120,7 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
+        <TaskForm handleTasks={makeNewTask}></TaskForm>
         <div>
           {
             <TaskList
