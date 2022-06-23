@@ -3,6 +3,7 @@ import TaskList from './components/TaskList.js';
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { TaskListService } from './services/TaskListService.js';
 
 // const TASKS = [
 //   {
@@ -52,9 +53,8 @@ const App = () => {
     }
     if (targetTask.is_complete) {
       console.log('inside if statement');
-      axios
-        .patch(`/tasks/${targetTask.id}/mark_incomplete`)
 
+      TaskListService(targetTask.id)
         .then(() => {
           console.log('toggle working');
           // eslint-disable-next-line camelcase
