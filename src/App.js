@@ -26,7 +26,6 @@ const App = () => {
     axios
       .get('/tasks')
       .then((response) => {
-        //console.log(response.data.isComplete);
         setTasks(response.data);
       })
       .catch((error) => {
@@ -48,15 +47,11 @@ const App = () => {
       if (task.id === id) {
         // task.isComplete = !task.isComplete;
         targetTask = task;
-        console.log(targetTask.is_complete);
       }
     }
     if (targetTask.is_complete) {
-      console.log('inside if statement');
-
       TaskListService(targetTask.id)
         .then(() => {
-          console.log('toggle working');
           // eslint-disable-next-line camelcase
           targetTask.is_complete = !targetTask.is_complete;
           setTasks(newTasks);
@@ -64,18 +59,15 @@ const App = () => {
         .catch((error) => {
           setErrorMessage(
             <section>
-              Can&apos;t mark task incomplete: {error.response.statusText}
+              Can&apos;t mark task incomplete: {error.response.data.message}
             </section>
           );
           console.log(error.response);
         });
     } else {
-      console.log('inside if statement');
       axios
         .patch(`/tasks/${targetTask.id}/mark_complete`)
-
         .then(() => {
-          console.log('toggle working');
           // eslint-disable-next-line camelcase
           targetTask.is_complete = !targetTask.is_complete;
           setTasks(newTasks);
@@ -83,7 +75,7 @@ const App = () => {
         .catch((error) => {
           setErrorMessage(
             <section>
-              Can&apos;t mark task incomplete: {error.response.statusText}
+              Can&apos;t mark task incomplete: {error.response.data.message}
             </section>
           );
           console.log(error.response);
@@ -100,6 +92,7 @@ const App = () => {
       })
       .catch((error) => {
         setErrorMessage(<section>Can&apos;t delete task</section>);
+        console.log(error.response.data.message);
       });
   };
 

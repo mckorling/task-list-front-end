@@ -26,7 +26,8 @@ TaskList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      isComplete: PropTypes.bool.isRequired,
+      // eslint-disable-next-line camelcase
+      is_complete: PropTypes.bool.isRequired,
     })
   ).isRequired,
   onCompleteTask: PropTypes.func.isRequired,
